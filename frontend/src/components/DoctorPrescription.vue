@@ -113,7 +113,7 @@
 
 
 <script>
-    //import { read } from 'xlsx';
+    import { addPrescription } from "@/web3Utils.js";
     import Medicament from './Medicament.vue';
     import NavigationBar from './NavigationBar.vue';
     //import pdfjsLib from 'pdfjs-dist';
@@ -240,7 +240,11 @@
                             "prescriptions": rowsMedicamentsActs 
                         };
                             
-                        let queryString = 'jsonPdf=' + encodeURIComponent(JSON.stringify(jsonPdf));
+                        let JSONString = JSON.stringify(jsonPdf);
+
+                        const prescriptionHash = web3.utils.sha3(JSONString);
+
+                        let queryString = 'jsonPdf=' + encodeURIComponent(JSONString);
 
                         let url = 'http://localhost:9000/generate-pdf?' + queryString;
 
