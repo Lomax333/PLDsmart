@@ -113,11 +113,10 @@
 
 
 <script>
-    import { addPrescription } from "@/web3Utils.js";
     import Medicament from './Medicament.vue';
     import NavigationBar from './NavigationBar.vue';
-    //import pdfjsLib from 'pdfjs-dist';
-
+    import Web3 from "web3";
+    const web3 = new Web3();
     export default {
         name: 'DoctorPrescriptionComponent',
         components: {

@@ -1,2 +1,4 @@
 node_modules/
 package-lock.json
+build/contracts/MedicalPrescription.json
+blockchain/build/contracts/MedicalPrescription.json
