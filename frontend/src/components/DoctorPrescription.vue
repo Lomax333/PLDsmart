@@ -196,10 +196,10 @@
                         const addressPrescription = document.getElementById("addressPrescription").textContent;
                         const consultationPhoneNumber = document.getElementById("consultationPhoneNumber").textContent;
 
-                        const table = document.querySelector("table");
-                        const rows = table.querySelectorAll("tbody tr");
+                    const table = document.querySelector("table");
+                    const rows = table.querySelectorAll("tbody tr");
 
-                        const rowsMedicamentsActs = [];
+                    const rowsMedicamentsActs = [];
 
                         rows.forEach(row => {
                             const medicineAct = row.querySelector("#medicineAct").value;
@@ -220,8 +220,8 @@
                                 "indication": indication
                             };              
 
-                            rowsMedicamentsActs.push(rowMedicamentAct);
-                        });
+                        rowsMedicamentsActs.push(rowMedicamentAct);
+                    });
 
                         let jsonPdf = {
                             "doctorName": doctorName,
@@ -241,11 +241,11 @@
                             
                         let JSONString = JSON.stringify(jsonPdf);
 
-                        const prescriptionHash = web3.utils.sha3(JSONString);
+                    const prescriptionHash = web3.utils.sha3(JSONString);
 
-                        let queryString = 'jsonPdf=' + encodeURIComponent(JSONString);
+                    let queryString = 'jsonPdf=' + encodeURIComponent(JSONString);
 
-                        let url = 'http://localhost:9000/generate-pdf?' + queryString;
+                    let url = 'http://localhost:9000/generate-pdf?' + queryString;
 
                         fetch(url, {
                             method: 'GET'
