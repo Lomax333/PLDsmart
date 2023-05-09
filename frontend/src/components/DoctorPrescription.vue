@@ -115,8 +115,8 @@
 <script>
     import Medicament from './Medicament.vue';
     import NavigationBar from './NavigationBar.vue';
-    import Web3 from "web3";
-    const web3 = new Web3();
+    //import Web3 from "web3";
+    //const web3 = new Web3();
     export default {
         name: 'DoctorPrescriptionComponent',
         components: {
@@ -241,7 +241,7 @@
                             
                         let JSONString = JSON.stringify(jsonPdf);
 
-                    const prescriptionHash = web3.utils.sha3(JSONString);
+                    //const prescriptionHash = web3.utils.sha3(JSONString);
 
                     let queryString = 'jsonPdf=' + encodeURIComponent(JSONString);
 
