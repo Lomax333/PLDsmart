@@ -1,9 +1,7 @@
 import Web3 from "web3";
+
 const medicalPrescriptionABI = require('../abis/MedicalPrescription.json');
 const config = require('../config.json');
-
-
-// Set up web3 provider
 const web3 = new Web3(window.ethereum);
 
 const medicalPrescriptionContract = new web3.eth.Contract(medicalPrescriptionABI, config.medicalPrescriptionContractAddress);
