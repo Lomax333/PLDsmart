@@ -83,7 +83,7 @@
             <h3>La prescription</h3>
 
             <div class="column" >
-            <input id="validityPrescriptionDays" type="text" name="" value="90">
+            <input id="validityPrescriptionDays" type="number" name="" value="90">
             <p class="indications">La validité de l'ordonnance (jours)</p>
             </div>
 
@@ -115,8 +115,9 @@
 <script>
     import Medicament from './Medicament.vue';
     import NavigationBar from './NavigationBar.vue';
-    //import Web3 from "web3";
-    //const web3 = new Web3();
+    import { addPrescription } from '@/utils/web3Utils';
+    import Web3 from "web3";
+    const web3 = new Web3();
     export default {
         name: 'DoctorPrescriptionComponent',
         components: {
@@ -155,9 +156,9 @@
             {
                 location.href = '/';
             },
-            verifyValidity()
+            async verifyValidity()
             {
-               const table = document.querySelector("table");
+                const table = document.querySelector("table");
 
                     if(table.rows.length == 1)
                     {
@@ -241,7 +242,17 @@
                             
                         let JSONString = JSON.stringify(jsonPdf);
 
-                    //const prescriptionHash = web3.utils.sha3(JSONString);
+                    const prescriptionHash = web3.utils.sha3(JSONString);
+                    var daysValid = document.getElementById("validityPrescriptionDays").value
+
+                    try {
+                        const txReceipt = await addPrescription(prescriptionHash, daysValid);
+
+                        console.log('Transaction receipt:', txReceipt);
+                    } catch (error) {
+                        console.error('Error while calling addPrescription:', error);
+                        return;
+                    }
 
                     let queryString = 'jsonPdf=' + encodeURIComponent(JSONString);
 

@@ -21,27 +21,56 @@ async function requestAccountAccess() {
     }
 }
 
+function extractRevertReason(error) {
+    console.log(error.message);
+    const revertKeyword = "revert ";
+    const startIndex = error.message.indexOf(revertKeyword) + revertKeyword.length;
+    const endIndex = error.message.indexOf("\"", startIndex);
+    return error.message.slice(startIndex, endIndex);
+}
+
 export async function addPrescription(prescriptionHash, daysValid) {
     if (account == null) {
         await requestAccountAccess();
     }
     if (account) {
-        const nonce = await web3.eth.getTransactionCount(account, 'pending');
-        const tx = await medicalPrescriptionContract.methods.addPrescription(prescriptionHash, daysValid).send({ from: account, nonce: nonce });
-        return tx;
+        try {
+            await medicalPrescriptionContract.methods
+                .addPrescription(prescriptionHash, daysValid)
+                .estimateGas({ from: account });
+
+            const tx = await medicalPrescriptionContract.methods
+                .addPrescription(prescriptionHash, daysValid)
+                .send({ from: account });
+            return { success: true, tx };
+        } catch (error) {
+            console.log('Error in addPrescription:', error);
+            const reason = extractRevertReason(error);
+            return { success: false, message: reason };
+        }
     }
-    return null
+    return { success: false, message: 'Account not connected' };
 }
 
-
-export async function verifyPrescription(prescriptionHash) {
+export async function deliverPrescription(prescriptionHash) {
     if (account == null) {
         await requestAccountAccess();
     }
     if (account) {
-        const nonce = await web3.eth.getTransactionCount(account, 'pending');
-        const isValid = await medicalPrescriptionContract.methods.verifyPrescription(prescriptionHash).call({ from: account, nonce: nonce });
-        return isValid;
+        try {
+            await medicalPrescriptionContract.methods
+                .deliverPrescription(prescriptionHash)
+                .estimateGas({ from: account });
+
+            const tx = await medicalPrescriptionContract.methods
+                .deliverPrescription(prescriptionHash)
+                .send({ from: account });
+            return { success: true, tx };
+        } catch (error) {
+            console.log('Error in deliverPrescription:', error);
+            const reason = extractRevertReason(error);
+            return { success: false, message: reason };
+        }
     }
-    return null;
+    return { success: false, message: 'Account not connected' };
 }
