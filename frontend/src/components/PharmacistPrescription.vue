@@ -243,69 +243,40 @@ export default {
                             .catch(error => {
                                 console.error('Error:', error);
                             });
-                            
-                        };
-                        reader.readAsArrayBuffer(file);
-                    }
-                }         
-          
-            },
-            fillFormAfterOCR(response)
-            {
-                var responseJson = JSON.stringify(response);
-                console.log("data : " + responseJson);
 
-                const doctorName = responseJson["NomDocteur"];
-                const doctorJob = responseJson["Qualification"];
-                const RPPSNum = responseJson["RPPS"];
-                const patientName = responseJson["NomPatient"];
-                const patientFirstName = responseJson["PrenomPatient"];
-                const patientAge = responseJson["Age"];
-                const patientWeight = responseJson["Poids"];
-                const patientHeight = responseJson["Taille"];
-                const prescriptionDate = responseJson["Date"];
-                const addressPrescription = responseJson["Adresse"];
-                const consultationPhoneNumber = responseJson["Tel"];
-
-                document.getElementById("doctorName").value = doctorName;
-                document.getElementById("doctorJob").value = doctorJob;
-                document.getElementById("RPPSNum").value = RPPSNum;
-                document.getElementById("patientName").value = patientName;
-                document.getElementById("patientFirstName").value = patientFirstName;
-                document.getElementById("patientAge").value = patientAge;
-                document.getElementById("patientWeight").value = patientWeight;
-                document.getElementById("patientHeight").value = patientHeight;
-                document.getElementById("prescriptionDate").value = prescriptionDate;
-                document.getElementById("addressPrescription").value = addressPrescription;
-                document.getElementById("consultationPhoneNumber").value = consultationPhoneNumber;               
-
-            },
-            handleFileImport(){
-                console.log("in the method handleFileImport!");
-                let input = document.createElement('input');
-                input.type = 'file';
-                input.multiple = false;
-                input.onchange = () => {
-                            let files =   Array.from(input.files);
-                            console.log(files);
-                            this.handleOCR(input);
-                        };
-                input.click();
-                
-            },
-            deleteMedicine(index) {
-                this.medicines.splice(index, 1);
-            },
-            addMedicine() {
-                this.medicines.push({
-                });
-            },
-            async deliverPrescription() {
-                const testHash = "0x1111111111111111111111111111111111111111111111111111111111111111";
                     };
                     reader.readAsArrayBuffer(file);
                 }
             }
+
+        },
+        fillFormAfterOCR(response) {
+            var responseJson = JSON.stringify(response);
+            console.log("data : " + responseJson);
+
+            const doctorName = responseJson["NomDocteur"];
+            const doctorJob = responseJson["Qualification"];
+            const RPPSNum = responseJson["RPPS"];
+            const patientName = responseJson["NomPatient"];
+            const patientFirstName = responseJson["PrenomPatient"];
+            const patientAge = responseJson["Age"];
+            const patientWeight = responseJson["Poids"];
+            const patientHeight = responseJson["Taille"];
+            const prescriptionDate = responseJson["Date"];
+            const addressPrescription = responseJson["Adresse"];
+            const consultationPhoneNumber = responseJson["Tel"];
+
+            document.getElementById("doctorName").value = doctorName;
+            document.getElementById("doctorJob").value = doctorJob;
+            document.getElementById("RPPSNum").value = RPPSNum;
+            document.getElementById("patientName").value = patientName;
+            document.getElementById("patientFirstName").value = patientFirstName;
+            document.getElementById("patientAge").value = patientAge;
+            document.getElementById("patientWeight").value = patientWeight;
+            document.getElementById("patientHeight").value = patientHeight;
+            document.getElementById("prescriptionDate").value = prescriptionDate;
+            document.getElementById("addressPrescription").value = addressPrescription;
+            document.getElementById("consultationPhoneNumber").value = consultationPhoneNumber;
 
         },
         handleFileImport() {
@@ -323,7 +294,6 @@ export default {
 
         },
         deleteMedicine(index) {
-            console.log("delete medicine of parent!!!!");
             this.medicines.splice(index, 1);
         },
         addMedicine() {
@@ -331,7 +301,6 @@ export default {
             });
         },
         async deliverPresc() {
-            console.log("In deliver");
             const table = document.querySelector("table");
 
             if (table.rows.length == 1) {

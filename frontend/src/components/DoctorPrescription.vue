@@ -134,33 +134,23 @@ export default {
         };
     },
     methods: {
+        mounted() {
+            import("pdfjs-dist/build/pdf.min").then((pdfjsLib) => {
+                pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.worker.min.js";
+                pdfjsLib.getDocument("/orddd.pdf").promise.then(function (pdf) {
+                    pdf.getPage(1).then((page) => {
+                        console.log(page);
+                    });
+                });
+            });
+
+        },
         deleteMedicine(index) {
             this.medicines.splice(index, 1);
         },
         addMedicine() {
             this.medicines.push({
-            };
-        },
-        methods: {
-            mounted(){
-                import("pdfjs-dist/build/pdf.min").then((pdfjsLib) => {
-                pdfjsLib.GlobalWorkerOptions.workerSrc =
-                    "https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.worker.min.js";
-                pdfjsLib.getDocument("/orddd.pdf").promise.then(function (pdf) {
-                    pdf.getPage(1).then((page) => {
-                    console.log(page);
-                    });
-                });
-                });
-
-            },
-            deleteMedicine(index) 
-            {
-                this.medicines.splice(index, 1);
-            },
-            addMedicine() 
-            {
-                this.medicines.push({
 
             });
         },
@@ -310,7 +300,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const min = n.getMinutes();
     document.getElementById("prescriptionDate").innerHTML = ('0' + d).slice(-2) + "/" + ('0' + m).slice(-2) + "/" + y + " " + ('0' + h).slice(-2) + ":" + ('0' + min).slice(-2);
 
-    });
+});
 
 </script>
 
