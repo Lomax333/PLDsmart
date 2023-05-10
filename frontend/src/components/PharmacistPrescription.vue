@@ -106,7 +106,7 @@
                 <img src="../assets/plus.png" alt="button add prescription" />
             </button>
         </div>
-        <button id="verifyPrescButton" class="ordonnance">Générer l'ordonnance</button>
+        <button id="deliverPrescButton" class="ordonnance" @click="deliverPrescription">Delivrer ordonnance</button>
     </div>
 </template>
 
@@ -114,6 +114,7 @@
 <script>
     import Medicament from './Medicament.vue';
     import NavigationBar from './NavigationBar.vue';
+    import { deliverPrescription } from '@/utils/web3Utils'
 
     export default 
     {
@@ -284,11 +285,24 @@
             },
             deleteMedicine(index) {
                 this.medicines.splice(index, 1);
-                },
+            },
             addMedicine() {
                 this.medicines.push({
                 });
-                },
+            },
+            async deliverPrescription() {
+                const testHash = "0x1111111111111111111111111111111111111111111111111111111111111111";
+
+                try {
+                    const txReceipt = await deliverPrescription(testHash);
+                    console.log('Transaction receipt:', txReceipt);
+                } catch (error) {
+                    console.error('Error while calling addPrescription:', error);
+                    return;
+                }
+                
+            }
+
         },
         props: {},
     };
