@@ -341,7 +341,6 @@ export default {
             input.click();
 
         },
-
         deleteMedicine(index) {
             this.medicines.splice(index, 1);
         },
@@ -462,9 +461,9 @@ export default {
                     return;
                 }
             }
-        },
-        props: {},
-    }
+        }
+    },
+    props: {}
 };
 
 </script>
