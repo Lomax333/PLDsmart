@@ -20,7 +20,7 @@
             <tr>
                 <th style="width: 9vw;">NOM</th>
                 <th style="width: 9vw;">Prénom</th>
-                <th style="width: 10vw;">Qualification</th>
+                <th style="width: 14vw;">Qualification</th>
                 <th style="width: 8vw;">Numéro RPPS</th>
                 <th style="width: 20vw;">Adresse</th>
                 <th style="width: 8vw;">Téléphone</th>
@@ -68,6 +68,7 @@
     import Pharmacist from './Pharmacist.vue';
     import NavigationBar from './NavigationBar.vue';
     import { addDoctor, addPharmacist, deleteDoctor, deletePharmacist } from '@/utils/web3Utils';
+    import Swal from 'sweetalert2';
 
     export default {
         name: 'AdminComponent',
@@ -94,7 +95,7 @@
                 var job ="";
 
                 if(result) {
-                    console.log("deleting the professional from index " + index + " in DB");
+                    console.log("deleting the professional from index " + index + " in table. ID: " + this.professionals[index].id);
 
                     if(this.selectedOption === 'doctors') {
                         job = "doctor/";
@@ -105,26 +106,31 @@
                         let handleDel = await fetch("http://localhost:9000/api/delete/" + job + this.professionals[index].id, {
                             method: 'DELETE'
                         });
-                        let response = await handleDel.json();
                         console.log(handleDel);
-                        console.log(response);
                         
-                        if(handleDel.status === 200) {
+                        if(handleDel.ok) {
                             try {
                                 if(this.selectedOption === 'doctors') {
                                     deleteDoctor(this.professionals[index].ethAddress);
                                 } else if(this.selectedOption === 'pharmacists') {
                                     deletePharmacist(this.professionals[index].ethAddress);
                                 }
-                                alert("Le professionnel a bien été supprimé");
+                                this.professionals.splice(index, 1);
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Succès !',
+                                    text: "Le professionnel a bien été supprimé"
+                                });
                             } catch (error) {
                                 console.log(error);
                             }
                         } else {
-                            alert("Erreur lors de la suppression du professionnel");
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: "Erreur lors de la suppression du professionnel"
+                            });
                         }
-
-                        this.professionals.splice(index, 1);
                     } catch (error) {
                         console.log(error);
                     }
@@ -176,19 +182,26 @@
                             'Content-Type': 'application/json; charset=UTF-8'
                         }
                         });
-                    let response = await handleAuth.json();
-                    console.log(response);
 
                     if(handleAuth.status == 200) {
                         try {
                             addDoctor(this.professionals[index].ethAddress);
-                            alert("New professional registered");
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Succès !',
+                                text: "Le docteur " + this.professionals[index].firstName + " " + this.professionals[index].lastName + " a bien été enregistré"
+                            });
+                            this.loadDoctors();
                         } catch (error) {
                             console.log(error);
                         }
                     }
                     else {
-                        alert("Error while registering new professional");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: "Erreur lors de l'enregistrement du docteur " + this.professionals[index].firstName + " " + this.professionals[index].lastName
+                        });
                     }
                 }
                 catch (error) {
@@ -212,19 +225,26 @@
                             'Content-Type': 'application/json; charset=UTF-8'
                         }
                         });
-                    let response = await handleAuth.json();
-                    console.log(response);
 
                     if(handleAuth.status == 200) {
                         try {
                             addPharmacist(this.professionals[index].ethAddress);
-                            alert("New professional registered");
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Succès !',
+                                text: "Le pharmacien " + this.professionals[index].firstName + " " + this.professionals[index].lastName + " a bien été enregistré"
+                            });
+                            this.loadPharmacists();
                         } catch (error) {
                             console.log(error);
                         }
                     }
                     else {
-                        alert("Error while registering new professional");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: "Erreur lors de l'enregistrement du pharmacien " + this.professionals[index].firstName + " " + this.professionals[index].lastName
+                        });
                     }
                 }
                 catch (error) {

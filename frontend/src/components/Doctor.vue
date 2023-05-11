@@ -1,31 +1,31 @@
 <template>
     <tr>
         <td>
-            <input id="professionalName" type="text" v-on:click="setEditable($event)" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalName'" :value="lastName" name="lastName" ref="professionalNameInput">
+            <input id="professionalName" type="text" v-on:click="setEditable($event)" v-on:focusin="setEditableOnFocus" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalName'" :value="lastName" name="lastName" ref="professionalNameInput">
         </td>
 
         <td>
-            <input id="professionalFirstName" type="text" v-on:click="setEditable($event)" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalFirstName'" :value="firstName" name="firstName" ref="professionalFirstNameInput">
+            <input id="professionalFirstName" type="text" v-on:click="setEditable($event)" v-on:focusin="setEditableOnFocus" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalFirstName'" :value="firstName" name="firstName" ref="professionalFirstNameInput">
         </td>
 
         <td>
-            <input id="professionalQualification" type="text" v-on:click="setEditable($event)" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalQualification'" :value="qualification" name="qualification" ref="professionalQualificationInput">
+            <input id="professionalQualification" type="text" v-on:click="setEditable($event)" v-on:focusin="setEditableOnFocus" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalQualification'" :value="qualification" name="qualification" ref="professionalQualificationInput">
         </td>
 
         <td>
-            <input id="professionalRPPSNumber" type="text" v-on:click="setEditable($event)" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalRPPSNumber'" :value="idPSdoctor" name="idPSdoctor" ref="professionalRPPSNumberInput">
+            <input id="professionalRPPSNumber" type="text" v-on:click="setEditable($event)" v-on:focusin="setEditableOnFocus" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalRPPSNumber'" :value="idPSdoctor" name="idPSdoctor" ref="professionalRPPSNumberInput">
         </td>
 
         <td>
-            <input id="professionalAddress" type="text" v-on:click="setEditable($event)" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalAddress'" :value="officeAddress" name="officeAddress" ref="professionalAddressInput">
+            <input id="professionalAddress" type="text" v-on:click="setEditable($event)" v-on:focusin="setEditableOnFocus" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalAddress'" :value="officeAddress" name="officeAddress" ref="professionalAddressInput">
         </td>
 
         <td>
-            <input id="professionalPhoneNumber" type="tel" v-on:click="setEditable($event)" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalPhoneNumber'" :value="telephone" name="telephone" ref="professionalPhoneNumberInput">        
+            <input id="professionalPhoneNumber" type="tel" v-on:click="setEditable($event)" v-on:focusin="setEditableOnFocus" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalPhoneNumber'" :value="telephone" name="telephone" ref="professionalPhoneNumberInput">        
         </td>
 
         <td>
-            <input id="professionalEthAddress" type="text" v-on:click="setEditable($event)" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalEthAddress'" :value="ethAddress" name="ethAddress" ref="professionalEthAddressInput">
+            <input id="professionalEthAddress" type="text" v-on:click="setEditable($event)" v-on:focusin="setEditableOnFocus" v-on:keyup.enter="setUneditable($event)" v-on:blur="setUneditable($event)" @input="validateModification" required :readonly="!editable || selectedInput !== 'professionalEthAddress'" :value="ethAddress" name="ethAddress" ref="professionalEthAddressInput">
         </td>
         
         <td>
@@ -61,6 +61,11 @@
                 this.$emit('add', this.index);
                 this.$el.querySelector("#delete").style.display = "initial";
                 this.$el.querySelector("#validate").style.display = "none";
+            },
+            setEditableOnFocus() {
+                // set editable to true and store a reference to the input field that triggered the event
+                this.editable = true;
+                this.selectedInput = event.target.id;
             },
             setEditable(event) {
                 // set editable to true and store a reference to the input field that triggered the event
